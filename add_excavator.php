@@ -279,7 +279,7 @@ function old($key, $default = '')
               <label>ثواني</label>
               <input type="number" id="start_seconds" name="start_seconds" value="0" min="0" max="59" required>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
               <label>دقائق</label>
               <input type="number" id="start_minutes" name="start_minutes" value="0" min="0" max="59" required>
             </div>
@@ -333,7 +333,7 @@ function old($key, $default = '')
 
           <div>
             <label>مجموع ساعات العمل</label>
-            <input type="number" name="total_work_hours" value="<?php echo old('total_work_hours', 0); ?>">
+            <input type="number" name="total_work_hours" value="<?php echo old('total_work_hours', 0); ?>" readonly>
           </div>
 
           <div class="full">
@@ -354,27 +354,32 @@ function old($key, $default = '')
 
           <div>
             <label>عطل HR</label>
-            <input type="text" name="hr_fault" value="<?php echo old('hr_fault'); ?>">
+            <input type="number" name="hr_fault" value="<?php echo old('hr_fault' ,0); ?>">
           </div>
 
           <div>
             <label>عطل صيانة</label>
-            <input type="text" name="maintenance_fault" value="<?php echo old('maintenance_fault'); ?>">
+            <input type="number" name="maintenance_fault" value="<?php echo old('maintenance_fault',0); ?>">
           </div>
 
           <div>
             <label>عطل تسويق</label>
-            <input type="text" name="marketing_fault" value="<?php echo old('marketing_fault'); ?>">
+            <input type="number" name="marketing_fault" value="<?php echo old('marketing_fault',0); ?>">
           </div>
 
           <div>
             <label>عطل اعتماد</label>
-            <input type="text" name="approval_fault" value="<?php echo old('approval_fault'); ?>">
+            <input type="number" name="approval_fault" value="<?php echo old('approval_fault',0); ?>">
           </div>
 
           <div>
             <label>ساعات أعطال أخرى</label>
             <input type="number" name="other_fault_hours" value="<?php echo old('other_fault_hours', 0); ?>">
+          </div>
+
+          <div>
+            <label> مجموع ساعات التعطل</label>
+            <input type="number" name="total_fault_hours" value="<?php echo old('total_fault_hours', 0); ?>" readonly>
           </div>
 
           <div class="full">
@@ -524,6 +529,40 @@ function old($key, $default = '')
             if (this.value < min) this.value = min;
           });
         });
+
+
+          // ✅ دالة لحساب العمليات الثلاثة
+  function calculateCustomHours() {
+    let executed = parseFloat(document.querySelector("input[name='executed_hours']").value) || 0;
+    let extraTotal = parseFloat(document.querySelector("input[name='extra_hours_total']").value) || 0;
+    let standby = parseFloat(document.querySelector("input[name='standby_hours']").value) || 0;
+    let shift = parseFloat(document.querySelector("input[name='shift_hours']").value) || 0;
+    let maintenance = parseFloat(document.querySelector("input[name='maintenance_fault']").value) || 0;
+    let marketing = parseFloat(document.querySelector("input[name='marketing_fault']").value) || 0;
+
+    // العملية الأولى: مجموع ساعات العمل
+    let totalWork = executed + extraTotal + standby;
+    document.querySelector("input[name='total_work_hours']").value = totalWork;
+
+    // العملية الثانية: ساعات أعطال أخرى
+    let otherFault = shift - executed;
+    if (otherFault < 0) otherFault = 0;
+    document.querySelector("input[name='total_fault_hours']").value = otherFault;
+
+    // العملية الثالثة: ساعات استعداد المشغل
+    let operatorStandby = 0;
+    if (executed < shift) {
+      operatorStandby = maintenance + marketing;
+    }
+    document.querySelector("input[name='operator_standby_hours']").value = operatorStandby;
+  }
+
+  // شغل الحساب عند أي تغيير في الحقول
+  document.querySelectorAll("input[name='executed_hours'], input[name='extra_hours_total'], input[name='standby_hours'], input[name='shift_hours'], input[name='maintenance_fault'], input[name='marketing_fault']")
+    .forEach(el => el.addEventListener("input", calculateCustomHours));
+
+  // ✅ استدعاء أول مرة
+  calculateCustomHours();
 
       function calculateDiff() {
         // اجمع البداية
