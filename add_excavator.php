@@ -248,6 +248,18 @@ function old($key, $default = '')
             <input type="hidden" name="entry_name" required value="<?php echo $_SESSION['username']; ?>" readonly>
           </div>
 
+           <div>
+            <input type="hidden" name="machine_name" value="<?php echo old('machine_name', 0); ?>" readonly>
+          </div>
+
+           <div>
+            <input type="hidden" name="project_name" value="<?php echo old('project_name', 0); ?>" readonly>
+          </div>
+
+           <div>
+            <input type="hidden" name="owner_name" value="<?php echo old('owner_name', 0); ?>" readonly>
+          </div>
+
           <div>
             <label>اسم السائق *</label>
             <input type="text" name="driver_name" required value="<?php echo old('driver_name'); ?>">
@@ -527,6 +539,9 @@ function old($key, $default = '')
           .then(data => {
             if (data) {
               document.querySelector("input[name='shift_hours']").value = data.hours / 2 || "";
+              document.querySelector("input[name='machine_name']").value = data.plant_no|| "";
+              document.querySelector("input[name='project_name']").value = data.project_name|| "";
+              document.querySelector("input[name='owner_name']").value = data.owner|| "";
             }
           })
           .catch(err => console.error("خطأ في جلب البيانات:", err));
