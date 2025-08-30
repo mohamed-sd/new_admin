@@ -327,8 +327,13 @@ function old($key, $default = '')
           </div>
 
           <div>
-            <label>ساعات الاستعداد</label>
+            <label>ساعات الاستعداد (بسبب العميل)</label>
             <input type="number" name="standby_hours" value="<?php echo old('standby_hours', 0); ?>">
+          </div>
+
+          <div>
+            <label>ساعات الاستعداد ( اعتماد )</label>
+            <input type="number" name="dependence_hours" value="<?php echo old('dependence_hours', 0); ?>">
           </div>
 
           <div>
@@ -533,6 +538,7 @@ function old($key, $default = '')
 
           // ✅ دالة لحساب العمليات الثلاثة
   function calculateCustomHours() {
+    let dependence = parseFloat(document.querySelector("input[name='dependence_hours']").value) || 0;
     let executed = parseFloat(document.querySelector("input[name='executed_hours']").value) || 0;
     let extraTotal = parseFloat(document.querySelector("input[name='extra_hours_total']").value) || 0;
     let standby = parseFloat(document.querySelector("input[name='standby_hours']").value) || 0;
@@ -545,20 +551,20 @@ function old($key, $default = '')
     document.querySelector("input[name='total_work_hours']").value = totalWork;
 
     // العملية الثانية: ساعات أعطال أخرى
-    let otherFault = shift - executed;
+    let otherFault = shift - executed - standby - dependence;
     if (otherFault < 0) otherFault = 0;
     document.querySelector("input[name='total_fault_hours']").value = otherFault;
 
     // العملية الثالثة: ساعات استعداد المشغل
     let operatorStandby = 0;
     if (executed < shift) {
-      operatorStandby = maintenance + marketing;
+      operatorStandby = maintenance + marketing + dependence;
     }
     document.querySelector("input[name='operator_standby_hours']").value = operatorStandby;
   }
 
   // شغل الحساب عند أي تغيير في الحقول
-  document.querySelectorAll("input[name='executed_hours'], input[name='extra_hours_total'], input[name='standby_hours'], input[name='shift_hours'], input[name='maintenance_fault'], input[name='marketing_fault']")
+  document.querySelectorAll("input[name='executed_hours'], input[name='extra_hours_total'], input[name='standby_hours'], input[name='shift_hours'], input[name='maintenance_fault'], input[name='marketing_fault'] , input[name='dependence_hours'] ")
     .forEach(el => el.addEventListener("input", calculateCustomHours));
 
   // ✅ استدعاء أول مرة
@@ -577,11 +583,14 @@ function old($key, $default = '')
           (parseInt(document.getElementById("end_minutes").value || 0) * 60) +
           (parseInt(document.getElementById("end_seconds").value || 0));
 
+        let executed = parseFloat(document.querySelector("input[name='executed_hours']").value) || 0;
+        let extraTotal = parseFloat(document.querySelector("input[name='extra_hours_total']").value) || 0;
+
         let diff = end - start;
         if (diff < 0) diff = 0; // حماية
 
         // حوّل الفرق إلى ساعات/دقائق/ثواني
-        let hours = Math.floor(diff / 3600);
+        let hours = (executed + extraTotal) - Math.floor(diff / 3600);
         let minutes = Math.floor((diff % 3600) / 60);
         let seconds = diff % 60;
 
