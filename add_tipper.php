@@ -33,22 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $data[$k] = $v;
         }
 
-        // ✅ دمج القيم لعداد البداية (بدون استخدام ??)
-        $start_h = (int)(isset($_POST['start_hours']) ? $_POST['start_hours'] : 0);
-        $start_m = (int)(isset($_POST['start_minutes']) ? $_POST['start_minutes'] : 0);
-        $start_s = (int)(isset($_POST['start_seconds']) ? $_POST['start_seconds'] : 0);
-        $data['counter_start'] = sprintf("%d:%02d:%02d", $start_h, $start_m, $start_s);
-
-        // ✅ دمج القيم لعداد النهاية (بدون استخدام ??)
-        $end_h   = (int)(isset($_POST['end_hours']) ? $_POST['end_hours'] : 0);
-        $end_m   = (int)(isset($_POST['end_minutes']) ? $_POST['end_minutes'] : 0);
-        $end_s   = (int)(isset($_POST['end_seconds']) ? $_POST['end_seconds'] : 0);
-        $data['counter_end']   = sprintf("%d:%02d:%02d", $end_h, $end_m, $end_s);
-
-        // 🗑️ احذف الحقول اللي مش موجودة في الجدول
-        unset($data['start_hours'], $data['start_minutes'], $data['start_seconds']);
-        unset($data['end_hours'], $data['end_minutes'], $data['end_seconds']);
-
         // تحقق أساسي من الحقول المهمة
         if (!isset($data['driver_name']) || $data['driver_name'] === '') {
             $message = "<div class='error'>⚠️ برجاء إدخال اسم السائق.</div>";
@@ -169,11 +153,11 @@ $machines = $conn->query("SELECT id, plant_no FROM master WHERE `status`='1' AND
   <label> <h5>⏱️ عداد البداية</h5> </label>
    <div class="col-lg-3">
     <label>ثواني</label>
-    <input type="number" id="start_seconds" name="start_seconds" min="0" max="59" required>
+    <input type="number" id="start_seconds" name="start_seconds" value="0">
   </div>
   <div class="col-lg-4">
     <label>دقائق</label>
-    <input type="number" id="start_minutes" name="start_minutes" min="0" max="59" required>
+    <input type="number" id="start_minutes" name="start_minutes" value="0">
   </div>
   <div class="col-lg-5">
     <label>ساعات</label>
@@ -275,8 +259,8 @@ $machines = $conn->query("SELECT id, plant_no FROM master WHERE `status`='1' AND
         <div>
           <label>فرق العداد</label>
             <label>⚡ فرق العداد</label>
-  <input type="text" name="counter_diff" id="counter_diff_display" readonly>
-  <input type="text" id="counter_diff"/>
+  <input type="text" id="counter_diff_display" readonly>
+  <input type="hidden" id="counter_diff" name="counter_diff">
         </div>
 
         <div>
@@ -342,16 +326,6 @@ $machines = $conn->query("SELECT id, plant_no FROM master WHERE `status`='1' AND
       document.getElementById("sidebar").classList.toggle("hide");
       document.getElementById("main").classList.toggle("full");
     }
-
-
-    document.querySelectorAll("#start_minutes, #start_seconds, #end_minutes, #end_seconds")
-    .forEach(inp => {
-        inp.addEventListener("input", function() {
-            let max = 59, min = 0;
-            if (this.value > max) this.value = max;
-            if (this.value < min) this.value = min;
-        });
-    });
 
 function calculateDiff() {
   // اجمع البداية
