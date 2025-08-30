@@ -25,6 +25,7 @@
       // Check the user role
       if($_SESSION['role'] == "user") { ?>
          <li><a href="home.php"> ⏱️ التايم شييت </a></li>
+         <li><a href="add_excavator.php"> ➕ ساعات حفار </a></li>
          <li><a href="add.php"> ➕ اضافة تايم شييت </a></li>
       <?php } ?>
       
