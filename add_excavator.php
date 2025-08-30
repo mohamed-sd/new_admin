@@ -477,7 +477,17 @@ function old($key, $default = '')
 
           <div>
             <label>⚙️ ساعات استعداد الآلية</label>
-            <input type="text" name="machine_standby_hours" value="<?php echo old('machine_standby_hours'); ?>">
+            <input type="text" name="machine_standby_hours" value="<?php echo old('machine_standby_hours'); ?>" readonly>
+          </div>
+
+          <div>
+            <label>⚙️ ساعات استعداد الجاك همر</label>
+            <input type="text" name="jackhammer_standby_hours" value="<?php echo old('jackhammer_standby_hours'); ?>">
+          </div>
+
+          <div>
+            <label>⚙️ ساعات استعداد الجردل</label>
+            <input type="text" name="bucket_standby_hours" value="<?php echo old('bucket_standby_hours'); ?>">
           </div>
 
           <div>
@@ -506,6 +516,8 @@ function old($key, $default = '')
       </form>
     </div>
     <script>
+
+
 
       function loadMachineData() {
         let id = document.getElementById("cost_code").value;
@@ -561,10 +573,13 @@ function old($key, $default = '')
       operatorStandby = maintenance + marketing + dependence;
     }
     document.querySelector("input[name='operator_standby_hours']").value = operatorStandby;
+
+    // اسناد قيمة استعدات الاليه 
+    document.querySelector("input[name='machine_standby_hours']").value = standby;
   }
 
   // شغل الحساب عند أي تغيير في الحقول
-  document.querySelectorAll("input[name='executed_hours'], input[name='extra_hours_total'], input[name='standby_hours'], input[name='shift_hours'], input[name='maintenance_fault'], input[name='marketing_fault'] , input[name='dependence_hours'] ")
+  document.querySelectorAll("input[name='executed_hours'], input[name='extra_hours_total'], input[name='standby_hours'], input[name='shift_hours'], input[name='maintenance_fault'], input[name='marketing_fault'] , input[name='dependence_hours'] , input[name='machine_standby_hours']  ")
     .forEach(el => el.addEventListener("input", calculateCustomHours));
 
   // ✅ استدعاء أول مرة
