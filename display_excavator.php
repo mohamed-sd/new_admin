@@ -41,6 +41,11 @@ $result = $conn->query($sql);
   <div class="main" id="main">
     <h2>📋 ملخص تقارير الحفارات</h2>
 
+
+    <div>
+
+    </div>
+
     <div style="overflow-x:auto;">
       <table id="excavatorTable" class="display nowrap" style="width:100%">
         <thead>

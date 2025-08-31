@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2025 at 10:48 AM
+-- Generation Time: Aug 31, 2025 at 05:01 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -80,6 +80,9 @@ CREATE TABLE `excavator` (
   `id` int(11) NOT NULL,
   `cost_code` varchar(11) NOT NULL,
   `entry_name` varchar(50) NOT NULL,
+  `machine_name` varchar(100) NOT NULL,
+  `project_name` varchar(100) NOT NULL,
+  `owner_name` varchar(100) NOT NULL,
   `driver_name` varchar(100) NOT NULL,
   `shift` varchar(50) NOT NULL,
   `shift_hours` int(11) DEFAULT NULL,
@@ -90,6 +93,7 @@ CREATE TABLE `excavator` (
   `extra_hours` int(11) DEFAULT NULL,
   `extra_hours_total` int(11) DEFAULT NULL,
   `standby_hours` int(11) DEFAULT NULL,
+  `dependence_hours` varchar(20) NOT NULL,
   `total_work_hours` int(11) DEFAULT NULL,
   `work_notes` text,
   `hr_fault` varchar(100) DEFAULT NULL,
@@ -97,6 +101,7 @@ CREATE TABLE `excavator` (
   `marketing_fault` varchar(100) DEFAULT NULL,
   `approval_fault` varchar(100) DEFAULT NULL,
   `other_fault_hours` int(11) DEFAULT NULL,
+  `total_fault_hours` varchar(20) NOT NULL,
   `fault_notes` text,
   `counter_end` varchar(20) DEFAULT NULL,
   `counter_diff` varchar(20) DEFAULT NULL,
@@ -107,6 +112,8 @@ CREATE TABLE `excavator` (
   `general_notes` text,
   `operator_hours` varchar(100) DEFAULT NULL,
   `machine_standby_hours` varchar(100) DEFAULT NULL,
+  `jackhammer_standby_hours` varchar(20) NOT NULL,
+  `bucket_standby_hours` varchar(20) NOT NULL,
   `extra_operator_hours` varchar(100) DEFAULT NULL,
   `operator_standby_hours` varchar(100) DEFAULT NULL,
   `operator_notes` text,
@@ -117,17 +124,8 @@ CREATE TABLE `excavator` (
 -- Dumping data for table `excavator`
 --
 
-INSERT INTO `excavator` (`id`, `cost_code`, `entry_name`, `driver_name`, `shift`, `shift_hours`, `counter_start`, `executed_hours`, `bucket_hours`, `jackhammer_hours`, `extra_hours`, `extra_hours_total`, `standby_hours`, `total_work_hours`, `work_notes`, `hr_fault`, `maintenance_fault`, `marketing_fault`, `approval_fault`, `other_fault_hours`, `fault_notes`, `counter_end`, `counter_diff`, `fault_type`, `fault_department`, `fault_part`, `fault_details`, `general_notes`, `operator_hours`, `machine_standby_hours`, `extra_operator_hours`, `operator_standby_hours`, `operator_notes`, `created_at`) VALUES
-(1, '', '', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 10, '1000', 10, 10, 10, 10, 10, 10, 10, 'Ù…Ù„Ø§Ø­Ø¸Ø§Øª', '10', '10', '10', '10', 10, 'Ù…Ù„Ø§Ø­Ø¸Ø§Øª', '1000', '10', 'Ù…ÙƒÙ†ÙŠÙƒÙŠ', 'ÙƒÙ‡Ø±Ø¨Ø§Ø¡', 'Ø§Ù„Ø¬ÙŠØ±Ø¨ÙˆÙƒØ³', 'Ù„Ø§ ÙŠÙˆØ¬Ø¯', 'Ø¹Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ù…Ø©', NULL, NULL, NULL, NULL, NULL, '2025-08-29 20:43:26'),
-(2, '3', '', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 0, '0', 0, 0, 0, 0, 0, 0, 0, 'Ù†ØªÙ…Ù†ØªØªÙ…', '10', '10', '10', '10', 0, 'Ù…ØªÙ…Ù†ØªÙ…Ù†ØªÙ…Ù†', '0', '0', 'Ù…ÙƒÙ†ÙŠÙƒÙŠ', 'ÙƒÙ‡Ø±Ø¨Ø§Ø¡', 'Ø§Ù„Ø¬ÙŠØ±Ø¨ÙˆÙƒØ³', 'ØªØ§Ù†ØªØ§Ù†Øª', 'ØªÙ†Ø§Ù†Ø§Ù†ØªØ§Ù†ØªØ§', NULL, NULL, NULL, NULL, NULL, '2025-08-29 20:58:03'),
-(3, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 0, '0', 0, 0, 0, 0, 0, 0, 0, '', '10', '10', '10', '10', 0, '', '0', '0', 'Ù…ÙƒÙ†ÙŠÙƒÙŠ', 'ÙƒÙ‡Ø±Ø¨Ø§Ø¡', 'Ø§Ù„Ø¬ÙŠØ±Ø¨ÙˆÙƒØ³', '', '', NULL, NULL, NULL, NULL, NULL, '2025-08-29 21:08:11'),
-(4, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 0, '0', 0, 0, 0, 0, 0, 0, 0, '', '10', '10', '10', '10', 0, 'Ø§Ù„Ù„Ù„Ù„Ù„Ù„Ù„', '0', '0', 'Ù…ÙƒÙ†ÙŠÙƒÙŠ', 'ÙƒÙ‡Ø±Ø¨Ø§Ø¡', 'Ø§Ù„Ø¬ÙŠØ±Ø¨ÙˆÙƒØ³', 'Ø¨Ø§Ø¨Ø§Ù„', 'Ø§Ø¨Ù„Ø§', '10', '10', '10', '10', 'Ù…Ù„Ø§', '2025-08-29 21:17:20'),
-(5, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 10, '1000', 0, 0, 0, 0, 0, 0, 0, 'fh', '5', '5', '5', '5', 0, 'lÙ…Ù„Ø§Ø­Ø¸Ø§Øª', '1030', '105664', '', '', '', 'Ø§Ø§Ø§Ø§Ø§Ø§Ø§', 'Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§', '20', '20', '10', '10', 'Ù…Ø±ÙŠØ¶', '2025-08-30 08:36:23'),
-(6, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 10, '1000:38:56', 0, 0, 0, 0, 0, 0, 0, 'fh', '5', '5', '5', '5', 0, 'lÙ…Ù„Ø§Ø­Ø¸Ø§Øª', '1030:00:00', '0', '', '', '', 'Ø§Ø§Ø§Ø§Ø§Ø§Ø§', 'Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§', '20', '20', '10', '10', 'Ù…Ø±ÙŠØ¶', '2025-08-30 08:38:18'),
-(7, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 10, '1000:38:56', 0, 0, 0, 0, 0, 0, 0, 'fh', '5', '5', '5', '5', 0, 'lÙ…Ù„Ø§Ø­Ø¸Ø§Øª', '1030:00:00', '0', '', '', '', 'Ø§Ø§Ø§Ø§Ø§Ø§Ø§', 'Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§Ø§', '20', '20', '10', '10', 'Ù…Ø±ÙŠØ¶', '2025-08-30 08:39:47'),
-(8, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', '', 0, '0:00:00', 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', 0, '', '0:00:00', '0 Ø³Ø§Ø¹Ø© 0 Ø¯Ù‚ÙŠÙ', '', '', '', '', '', '', '', '', '', '', '2025-08-30 08:43:04'),
-(9, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'Ù„ÙŠÙ„', 10, '2000:20:20', 4, 3, 7, 2, 9, 2, 2, 'Ù…Ù„Ø§Ø­Ø¸Ø§Øª', '2', '', '', '', 2, 'Ù…Ù„Ø§Ø­Ø¸Ø§Øª', '2020:30:30', '20 Ø³Ø§Ø¹Ø© 10 Ø¯Ù‚Ù', 'ØµÙŠØ§Ù†Ø©', 'ÙƒÙ‡Ø±Ø¨Ø§Ø¡', 'Ø§Ù„Ø¬ÙŠØ±Ø¨ÙˆÙƒØ³', 'ØªÙØ§ØµÙŠÙ„', '', '', '', '', '', '', '2025-08-30 08:45:30'),
-(10, '3', 'medo', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', '', 0, '1000:50:50', 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', 0, '', '1050:20:20', '49 Ø³Ø§Ø¹Ø© 29 Ø¯Ù‚Ù', '', '', '', '', '', '', '', '', '', '', '2025-08-30 08:47:05');
+INSERT INTO `excavator` (`id`, `cost_code`, `entry_name`, `machine_name`, `project_name`, `owner_name`, `driver_name`, `shift`, `shift_hours`, `counter_start`, `executed_hours`, `bucket_hours`, `jackhammer_hours`, `extra_hours`, `extra_hours_total`, `standby_hours`, `dependence_hours`, `total_work_hours`, `work_notes`, `hr_fault`, `maintenance_fault`, `marketing_fault`, `approval_fault`, `other_fault_hours`, `total_fault_hours`, `fault_notes`, `counter_end`, `counter_diff`, `fault_type`, `fault_department`, `fault_part`, `fault_details`, `general_notes`, `operator_hours`, `machine_standby_hours`, `jackhammer_standby_hours`, `bucket_standby_hours`, `extra_operator_hours`, `operator_standby_hours`, `operator_notes`, `created_at`) VALUES
+(1, '3', 'medo', 'Mitsobitchy', 'Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ø±ÙˆØ³ÙŠØ©', 'Ø¹Ø¨Ø¯ Ø§Ù„Ø±Ø­ÙŠÙ…', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', '', 10, '0:00:00', 0, 0, 0, 0, 0, 0, '0', 0, '', '0', '0', '0', '0', 0, '0', '', '0:00:00', '0 Ø³Ø§Ø¹Ø© 0 Ø¯Ù‚ÙŠÙ', '', '', '', '', '', '', '0', '', '', '', '0', '', '2025-08-31 11:34:59');
 
 -- --------------------------------------------------------
 
@@ -159,7 +157,7 @@ CREATE TABLE `master` (
 --
 
 INSERT INTO `master` (`id`, `status`, `plant_no`, `contract_type`, `yom`, `plate_no`, `supplier_code`, `owner`, `owner_toc`, `contact_no`, `starting_date`, `releasing_date`, `project_name`, `user`, `notes`, `hours`) VALUES
-(3, '1', 'Mitsobitchy', 'Rental', 2002, '98493', 'ÙŒREXR', 'Ø¹Ø¨Ø¯ Ø§Ù„Ø±Ø­ÙŠÙ…', '', '0115667710', '0000-00-00', '0000-00-00', 'Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ø±ÙˆØ³ÙŠØ©', '2', 'Ù†Ù…Ù†Ù…', '10'),
+(3, '1', 'Mitsobitchy', 'Rental', 2002, '98493', 'ÙŒREXR', 'Ø¹Ø¨Ø¯ Ø§Ù„Ø±Ø­ÙŠÙ…', '', '0115667710', '0000-00-00', '0000-00-00', 'Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ø±ÙˆØ³ÙŠØ©', '2', 'Ù†Ù…Ù†Ù…', '20'),
 (5, '1', 'Hino', 'RentalØ§', 2002, '98494', 'EQERTYY', 'Hino', '', '6567570', '2025-08-08', '0000-00-00', 'Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ø±ÙˆØ³ÙŠØ©', '3', 'Ù…Ø§Ùƒ', '100');
 
 -- --------------------------------------------------------
@@ -290,6 +288,59 @@ INSERT INTO `projects` (`id`, `project_name`, `project_location`, `contract_type
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tipper`
+--
+
+CREATE TABLE `tipper` (
+  `id` int(11) NOT NULL,
+  `cost_code` varchar(11) NOT NULL,
+  `entry_name` varchar(50) NOT NULL,
+  `machine_name` varchar(100) NOT NULL,
+  `project_name` varchar(100) NOT NULL,
+  `owner_name` varchar(100) NOT NULL,
+  `driver_name` varchar(100) NOT NULL,
+  `shift` varchar(50) NOT NULL,
+  `shift_hours` int(11) DEFAULT NULL,
+  `counter_start` varchar(20) DEFAULT NULL,
+  `executed_hours` int(11) DEFAULT NULL,
+  `extra_hours_total` int(11) DEFAULT NULL,
+  `standby_hours` int(11) DEFAULT NULL,
+  `dependence_hours` varchar(20) NOT NULL,
+  `total_work_hours` int(11) DEFAULT NULL,
+  `work_notes` text,
+  `hr_fault` varchar(100) DEFAULT NULL,
+  `maintenance_fault` varchar(100) DEFAULT NULL,
+  `marketing_fault` varchar(100) DEFAULT NULL,
+  `approval_fault` varchar(100) DEFAULT NULL,
+  `other_fault_hours` int(11) DEFAULT NULL,
+  `total_fault_hours` varchar(20) NOT NULL,
+  `fault_notes` text,
+  `counter_end` varchar(20) DEFAULT NULL,
+  `counter_diff` varchar(20) DEFAULT NULL,
+  `number_of_moves` varchar(20) NOT NULL,
+  `fault_type` varchar(100) DEFAULT NULL,
+  `fault_department` varchar(100) DEFAULT NULL,
+  `fault_part` varchar(100) DEFAULT NULL,
+  `fault_details` text,
+  `general_notes` text,
+  `operator_hours` varchar(100) DEFAULT NULL,
+  `extra_operator_hours` varchar(20) NOT NULL,
+  `machine_standby_hours` varchar(100) DEFAULT NULL,
+  `operator_standby_hours` varchar(100) DEFAULT NULL,
+  `operator_notes` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tipper`
+--
+
+INSERT INTO `tipper` (`id`, `cost_code`, `entry_name`, `machine_name`, `project_name`, `owner_name`, `driver_name`, `shift`, `shift_hours`, `counter_start`, `executed_hours`, `extra_hours_total`, `standby_hours`, `dependence_hours`, `total_work_hours`, `work_notes`, `hr_fault`, `maintenance_fault`, `marketing_fault`, `approval_fault`, `other_fault_hours`, `total_fault_hours`, `fault_notes`, `counter_end`, `counter_diff`, `number_of_moves`, `fault_type`, `fault_department`, `fault_part`, `fault_details`, `general_notes`, `operator_hours`, `extra_operator_hours`, `machine_standby_hours`, `operator_standby_hours`, `operator_notes`, `created_at`) VALUES
+(1, '3', 'medo', 'Mitsobitchy', 'Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ø±ÙˆØ³ÙŠØ©', 'Ø¹Ø¨Ø¯ Ø§Ù„Ø±Ø­ÙŠÙ…', 'Ù…Ø­Ù…Ø¯ Ø³ÙŠØ¯', 'D', 10, '0:00:00', 0, 0, 0, '0', 0, '', '0', '0', '0', '0', 0, '0', '', '0:00:00', '0', '0', '', '', '', '', '', '', '', '0', '0', '', '2025-08-31 14:11:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -367,6 +418,12 @@ ALTER TABLE `projects`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tipper`
+--
+ALTER TABLE `tipper`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -391,7 +448,7 @@ ALTER TABLE `equipment_types`
 -- AUTO_INCREMENT for table `excavator`
 --
 ALTER TABLE `excavator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `master`
 --
@@ -416,6 +473,11 @@ ALTER TABLE `owners`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `tipper`
+--
+ALTER TABLE `tipper`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `users`
