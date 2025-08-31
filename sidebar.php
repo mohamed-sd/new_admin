@@ -1,7 +1,16 @@
 <!-- الشريط الجانبي -->
 <div class="sidebar" id="sidebar">
    <span class="menu-btn" onclick="toggleSidebar()">☰</span>
-   <h2> ⚙️ إيكوبيشن </h2>
+   <!-- Example: full sidebar logo (place inside sidebar) -->
+<aside class="sidebar-logo" aria-label="Equipation logo">
+<a href="#" title="Equipation" class="logo-accent" aria-hidden="false">
+<span class="logo-text">
+<span class="logo-name">Equipation</span>
+<span class="logo-sub">حلول المعدات الذكية</span>
+</span>
+</a>
+</aside>
+
    <ul>
       <?php 
       // Check the admin role

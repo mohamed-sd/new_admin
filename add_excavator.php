@@ -83,11 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
   }
 }
 
-// دالة صغيرة لإعادة ملء الحقول بعد الفشل
-function old($key, $default = '')
-{
-  return isset($_POST[$key]) ? htmlspecialchars($_POST[$key], ENT_QUOTES, 'UTF-8') : $default;
-}
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -236,7 +231,7 @@ function old($key, $default = '')
             <select name="cost_code" id="cost_code" onchange="loadMachineData()" required>
               <option value="">-- اختر المعدة --</option>
               <?php while ($m = $machines->fetch_assoc()): ?>
-                <option value="<?php echo $m['id']; ?>" <?php echo old('cost_code') == $m['id'] ? 'selected' : ''; ?>>
+                <option value="<?php echo $m['id']; ?>">
                   <?php echo $m['plant_no']; ?>
                 </option>
               <?php endwhile; ?>
@@ -248,21 +243,21 @@ function old($key, $default = '')
             <input type="hidden" name="entry_name" required value="<?php echo $_SESSION['username']; ?>" readonly>
           </div>
 
-           <div>
-            <input type="hidden" name="machine_name" value="<?php echo old('machine_name', 0); ?>" readonly>
+          <div>
+            <input type="hidden" name="machine_name" readonly />
           </div>
 
-           <div>
-            <input type="hidden" name="project_name" value="<?php echo old('project_name', 0); ?>" readonly>
+          <div>
+            <input type="hidden" name="project_name" readonly />
           </div>
 
-           <div>
-            <input type="hidden" name="owner_name" value="<?php echo old('owner_name', 0); ?>" readonly>
+          <div>
+            <input type="hidden" name="owner_name" readonly />
           </div>
 
           <div>
             <label>اسم السائق *</label>
-            <input type="text" name="driver_name" required value="<?php echo old('driver_name'); ?>">
+            <input type="text" name="driver_name" required />
           </div>
 
           <div>
@@ -276,7 +271,7 @@ function old($key, $default = '')
 
           <div>
             <label>ساعات الوردية</label>
-            <input type="number" name="shift_hours" value="<?php echo old('shift_hours', 0); ?>" readonly>
+            <input type="number" name="shift_hours" value="0" readonly>
           </div>
 
           <div><br /></div>
@@ -315,47 +310,47 @@ function old($key, $default = '')
 
           <div>
             <label>الساعات المنفذة</label>
-            <input type="number" name="executed_hours" value="<?php echo old('executed_hours', 0); ?>">
+            <input type="number" name="executed_hours" value="0">
           </div>
 
           <div>
             <label>ساعات جردل</label>
-            <input type="number" name="bucket_hours" value="<?php echo old('bucket_hours', 0); ?>">
+            <input type="number" name="bucket_hours" value="0">
           </div>
 
           <div>
             <label>ساعات جاك همر</label>
-            <input type="number" name="jackhammer_hours" value="<?php echo old('jackhammer_hours', 0); ?>">
+            <input type="number" name="jackhammer_hours" value="0">
           </div>
 
           <div>
             <label>ساعات إضافية</label>
-            <input type="number" name="extra_hours" value="<?php echo old('extra_hours', 0); ?>">
+            <input type="number" name="extra_hours" value="0">
           </div>
 
           <div>
             <label>مجموع الساعات الإضافية</label>
-            <input type="number" name="extra_hours_total" value="<?php echo old('extra_hours_total', 0); ?>">
+            <input type="number" name="extra_hours_total" value="0">
           </div>
 
           <div>
             <label>ساعات الاستعداد (بسبب العميل)</label>
-            <input type="number" name="standby_hours" value="<?php echo old('standby_hours', 0); ?>">
+            <input type="number" name="standby_hours" value="0">
           </div>
 
           <div>
             <label>ساعات الاستعداد ( اعتماد )</label>
-            <input type="number" name="dependence_hours" value="<?php echo old('dependence_hours', 0); ?>">
+            <input type="number" name="dependence_hours" value="0">
           </div>
 
           <div>
             <label>مجموع ساعات العمل</label>
-            <input type="number" name="total_work_hours" value="<?php echo old('total_work_hours', 0); ?>" readonly>
+            <input type="number" name="total_work_hours" value="0" readonly>
           </div>
 
           <div class="full">
             <label>ملاحظات ساعات العمل</label>
-            <textarea name="work_notes"><?php echo old('work_notes'); ?></textarea>
+            <textarea name="work_notes"></textarea>
           </div>
 
           <div>
@@ -371,43 +366,38 @@ function old($key, $default = '')
 
           <div>
             <label>عطل HR</label>
-            <input type="number" name="hr_fault" value="<?php echo old('hr_fault' ,0); ?>">
+            <input type="number" name="hr_fault" value="0">
           </div>
 
           <div>
             <label>عطل صيانة</label>
-            <input type="number" name="maintenance_fault" value="<?php echo old('maintenance_fault',0); ?>">
+            <input type="number" name="maintenance_fault" value="0">
           </div>
 
           <div>
             <label>عطل تسويق</label>
-            <input type="number" name="marketing_fault" value="<?php echo old('marketing_fault',0); ?>">
+            <input type="number" name="marketing_fault" value="0">
           </div>
 
           <div>
             <label>عطل اعتماد</label>
-            <input type="number" name="approval_fault" value="<?php echo old('approval_fault',0); ?>">
+            <input type="number" name="approval_fault" value="0">
           </div>
 
           <div>
             <label>ساعات أعطال أخرى</label>
-            <input type="number" name="other_fault_hours" value="<?php echo old('other_fault_hours', 0); ?>">
+            <input type="number" name="other_fault_hours" value="0">
           </div>
 
           <div>
             <label> مجموع ساعات التعطل</label>
-            <input type="number" name="total_fault_hours" value="<?php echo old('total_fault_hours', 0); ?>" readonly>
+            <input type="number" name="total_fault_hours" value="0" readonly>
           </div>
 
           <div class="full">
             <label>ملاحظات ساعات الأعطال</label>
-            <textarea name="fault_notes"><?php echo old('fault_notes'); ?></textarea>
+            <textarea name="fault_notes"></textarea>
           </div>
-
-          <!-- <div>
-          <label>عداد النهاية</label>
-          <input type="number" name="counter_end" value="<?php echo old('counter_end', 0); ?>">
-        </div> -->
 
           <div> <label>
               <h5>⏱️ عداد النهاية</h5>
@@ -448,27 +438,27 @@ function old($key, $default = '')
 
           <div>
             <label>نوع العطل</label>
-            <input type="text" name="fault_type" value="<?php echo old('fault_type'); ?>">
+            <input type="text" name="fault_type" />
           </div>
 
           <div>
             <label>قسم العطل</label>
-            <input type="text" name="fault_department" value="<?php echo old('fault_department'); ?>">
+            <input type="text" name="fault_department" />
           </div>
 
           <div>
             <label>الجزء المعطل</label>
-            <input type="text" name="fault_part" value="<?php echo old('fault_part'); ?>">
+            <input type="text" name="fault_part" />
           </div>
 
           <div class="full">
             <label>تفاصيل العطل</label>
-            <textarea name="fault_details"><?php echo old('fault_details'); ?></textarea>
+            <textarea name="fault_details"></textarea>
           </div>
 
           <div class="full">
             <label>ملاحظات عامة</label>
-            <textarea name="general_notes"><?php echo old('general_notes'); ?></textarea>
+            <textarea name="general_notes"></textarea>
           </div>
 
           <div>
@@ -484,41 +474,39 @@ function old($key, $default = '')
 
           <div>
             <label>⏱️ ساعات عمل المشغل</label>
-            <input type="text" name="operator_hours" value="<?php echo old('operator_hours'); ?>">
+            <input type="text" name="operator_hours" value="0">
           </div>
 
           <div>
             <label>⚙️ ساعات استعداد الآلية</label>
-            <input type="text" name="machine_standby_hours" value="<?php echo old('machine_standby_hours'); ?>" readonly>
+            <input type="text" name="machine_standby_hours" value="0" readonly>
           </div>
 
           <div>
             <label>⚙️ ساعات استعداد الجاك همر</label>
-            <input type="text" name="jackhammer_standby_hours" value="<?php echo old('jackhammer_standby_hours'); ?>">
+            <input type="text" name="jackhammer_standby_hours" value="0">
           </div>
 
           <div>
             <label>⚙️ ساعات استعداد الجردل</label>
-            <input type="text" name="bucket_standby_hours" value="<?php echo old('bucket_standby_hours'); ?>">
+            <input type="text" name="bucket_standby_hours" value="0">
           </div>
 
           <div>
             <label>➕ الساعات الإضافية</label>
-            <input type="text" name="extra_operator_hours" class="form-control"
-              value="<?php echo old('extra_operator_hours'); ?>">
+            <input type="text" name="extra_operator_hours" class="form-control" value="0">
           </div>
 
           <div>
             <label>👷 ساعات استعداد المشغل</label>
-            <input type="text" name="operator_standby_hours" class="form-control"
-              value="<?php echo old('operator_standby_hours'); ?>">
+            <input type="text" name="operator_standby_hours" class="form-control" value="0">
           </div>
 
         </div>
 
         <div class="col-12 mb-3">
           <label>📝 ملاحظات المشغل</label>
-          <textarea name="operator_notes" class="form-control"><?php echo old('operator_notes'); ?></textarea>
+          <textarea name="operator_notes" class="form-control"></textarea>
         </div>
 
         <div class="actions">
@@ -539,9 +527,9 @@ function old($key, $default = '')
           .then(data => {
             if (data) {
               document.querySelector("input[name='shift_hours']").value = data.hours / 2 || "";
-              document.querySelector("input[name='machine_name']").value = data.plant_no|| "";
-              document.querySelector("input[name='project_name']").value = data.project_name|| "";
-              document.querySelector("input[name='owner_name']").value = data.owner|| "";
+              document.querySelector("input[name='machine_name']").value = data.plant_no || "";
+              document.querySelector("input[name='project_name']").value = data.project_name || "";
+              document.querySelector("input[name='owner_name']").value = data.owner || "";
             }
           })
           .catch(err => console.error("خطأ في جلب البيانات:", err));
@@ -563,42 +551,42 @@ function old($key, $default = '')
         });
 
 
-          // ✅ دالة لحساب العمليات الثلاثة
-  function calculateCustomHours() {
-    let dependence = parseFloat(document.querySelector("input[name='dependence_hours']").value) || 0;
-    let executed = parseFloat(document.querySelector("input[name='executed_hours']").value) || 0;
-    let extraTotal = parseFloat(document.querySelector("input[name='extra_hours_total']").value) || 0;
-    let standby = parseFloat(document.querySelector("input[name='standby_hours']").value) || 0;
-    let shift = parseFloat(document.querySelector("input[name='shift_hours']").value) || 0;
-    let maintenance = parseFloat(document.querySelector("input[name='maintenance_fault']").value) || 0;
-    let marketing = parseFloat(document.querySelector("input[name='marketing_fault']").value) || 0;
+      // ✅ دالة لحساب العمليات الثلاثة
+      function calculateCustomHours() {
+        let dependence = parseFloat(document.querySelector("input[name='dependence_hours']").value) || 0;
+        let executed = parseFloat(document.querySelector("input[name='executed_hours']").value) || 0;
+        let extraTotal = parseFloat(document.querySelector("input[name='extra_hours_total']").value) || 0;
+        let standby = parseFloat(document.querySelector("input[name='standby_hours']").value) || 0;
+        let shift = parseFloat(document.querySelector("input[name='shift_hours']").value) || 0;
+        let maintenance = parseFloat(document.querySelector("input[name='maintenance_fault']").value) || 0;
+        let marketing = parseFloat(document.querySelector("input[name='marketing_fault']").value) || 0;
 
-    // العملية الأولى: مجموع ساعات العمل
-    let totalWork = executed + extraTotal + standby;
-    document.querySelector("input[name='total_work_hours']").value = totalWork;
+        // العملية الأولى: مجموع ساعات العمل
+        let totalWork = executed + extraTotal + standby;
+        document.querySelector("input[name='total_work_hours']").value = totalWork;
 
-    // العملية الثانية: ساعات أعطال أخرى
-    let otherFault = shift - executed - standby - dependence;
-    if (otherFault < 0) otherFault = 0;
-    document.querySelector("input[name='total_fault_hours']").value = otherFault;
+        // العملية الثانية: ساعات أعطال أخرى
+        let otherFault = shift - executed - standby - dependence;
+        if (otherFault < 0) otherFault = 0;
+        document.querySelector("input[name='total_fault_hours']").value = otherFault;
 
-    // العملية الثالثة: ساعات استعداد المشغل
-    let operatorStandby = 0;
-    if (executed < shift) {
-      operatorStandby = maintenance + marketing + dependence;
-    }
-    document.querySelector("input[name='operator_standby_hours']").value = operatorStandby;
+        // العملية الثالثة: ساعات استعداد المشغل
+        let operatorStandby = 0;
+        if (executed < shift) {
+          operatorStandby = maintenance + marketing + dependence;
+        }
+        document.querySelector("input[name='operator_standby_hours']").value = operatorStandby;
 
-    // اسناد قيمة استعدات الاليه 
-    document.querySelector("input[name='machine_standby_hours']").value = standby;
-  }
+        // اسناد قيمة استعدات الاليه 
+        document.querySelector("input[name='machine_standby_hours']").value = standby;
+      }
 
-  // شغل الحساب عند أي تغيير في الحقول
-  document.querySelectorAll("input[name='executed_hours'], input[name='extra_hours_total'], input[name='standby_hours'], input[name='shift_hours'], input[name='maintenance_fault'], input[name='marketing_fault'] , input[name='dependence_hours'] , input[name='machine_standby_hours']  ")
-    .forEach(el => el.addEventListener("input", calculateCustomHours));
+      // شغل الحساب عند أي تغيير في الحقول
+      document.querySelectorAll("input[name='executed_hours'], input[name='extra_hours_total'], input[name='standby_hours'], input[name='shift_hours'], input[name='maintenance_fault'], input[name='marketing_fault'] , input[name='dependence_hours'] , input[name='machine_standby_hours']  ")
+        .forEach(el => el.addEventListener("input", calculateCustomHours));
 
-  // ✅ استدعاء أول مرة
-  calculateCustomHours();
+      // ✅ استدعاء أول مرة
+      calculateCustomHours();
 
       function calculateDiff() {
         // اجمع البداية

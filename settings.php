@@ -133,7 +133,7 @@ if (!isset($_SESSION['user_id'])) {
         <div class="setting-card">
           <i class="fa-solid fa-chart-line"></i>
           <h4 style="color: red;">إدارة المشاريع</h4>
-          <a href="projects.php">إدارة</a>
+          <a href="projects.php">إدارة</a><a href="new.php"> جديدة إدارة</a>
         </div>
 
 
