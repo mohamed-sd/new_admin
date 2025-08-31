@@ -2,8 +2,39 @@
 session_start();
 // التحقق من تسجيل الدخول
 if (!isset($_SESSION['user_id'])) {
-    header("Location: index.php"); // رجعه لصفحة تسجيل الدخول
+    header("Location: index.php");
     exit;
+}
+include "config.php";
+
+// اسم المستخدم
+$username = $_SESSION['username'];
+
+// فلترة البيانات (Admin يشوف الكل، غيره يشوف شغله فقط)
+if($_SESSION['role'] == "admin"){ 
+  $sql = "SELECT * FROM operations WHERE DATE(created_at) = CURDATE()";
+}else{ 
+  $sql = "SELECT * FROM operations WHERE entry_name = '$username' AND DATE(created_at) = CURDATE()";
+}
+
+$result = $conn->query($sql);
+
+// إحصائيات اليوم
+$total_hours = 0;
+$down_hours  = 0;
+$executed_hours = 0;
+$excavators = 0;
+$dumpers = 0;
+
+if ($result && $result->num_rows > 0) {
+    while($row = $result->fetch_assoc()){
+        $total_hours += $row["today_hours"];
+        $down_hours  += isset($row["down_hours"]) ? $row["down_hours"] : 0; 
+        $executed_hours += isset($row["executed_hours"]) ? $row["executed_hours"] : $row["today_hours"]; 
+
+        if(strpos($row["equipment_name"], "حفار") !== false){ $excavators++; }
+        if(strpos($row["equipment_name"], "قلاب") !== false){ $dumpers++; }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -12,139 +43,54 @@ if (!isset($_SESSION['user_id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>لوحة التحكم | شركة دهب</title>
-
-  <!-- خطوط وأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <style>
+    body {font-family:'Cairo', sans-serif; margin:0; background:#f8f9fa;}
+    .main {padding:20px;}
+    .cards {display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-bottom:2rem;}
+    .card {background:#fff; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); text-align:center;}
+    .card h3 {margin:0; font-size:18px; color:#333;}
+    .card p {margin:10px 0 0; font-size:20px; font-weight:bold; color:#FFD700;}
+    .two-cards {display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:800px; margin:auto;}
+  </style>
 </head>
 <body>
-
-  <!-- Include the sidebar -->
   <?php include 'sidebar.php'; ?>
-
-  <!-- المحتوى الرئيسي -->
   <div class="main" id="main">
+
     <!-- الشريط العلوي -->
     <div class="topbar">
      <span class="menu-btn" onclick="toggleSidebar()">☰</span>
      مرحبا بك : <?php echo $_SESSION['name']; ?> 
-      <div class="search">
-        <input type="text" placeholder="🔍 بحث...">
-      </div>
-      <div class="icons">🔔 👤</div>
     </div>
 
-    <?php
+    <!-- عنوان -->
+    <h2 style="text-align:center; margin:20px 0;">📊 التايم شيت (إحصائيات اليوم)</h2>
 
-    include "config.php";
-
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']); // تأمين المدخلات
-
-    $sql = "DELETE FROM operations WHERE id = $id";
-
-    if ($conn->query($sql) === TRUE) {
-        // بعد الحذف يرجع للصفحة الرئيسية
-        echo "<script>
-        alert('تم الحذف بنجاح ✅');
-        window.location.href='dashbourd.php';
-      </script>";
-        exit;
-    } else {
-        echo "خطأ في الحذف: " . $conn->error;
-    }
-} else {
-  //  echo "معرّف السجل غير موجود.";
-}
-
-    ?>
-
-    <!-- الكروت -->
-    <!-- <div class="cards">
-      <div class="card"><h3>📁 المشاريع</h3><p>15</p></div>
-      <div class="card"><h3>📑 العقود</h3><p>8</p></div>
-      <div class="card"><h3>⛽ استهلاك الوقود</h3><p>1200 لتر</p></div>
-      <div class="card"><h3>🛠 الأعطال</h3><p>3</p></div>
-    </div> -->
-
-    <!-- الجدول -->
-    <div class="card" style="margin-top:2rem; overflow-x:auto;">
-      <h3 style="text-align:right; margin-bottom:1rem;">📊 بيانات التايم شييت</h3>
-      <table id="dataTable" class="display nowrap" style="width:100%">
-        <thead>
-          <tr>
-            <th>رقم</th>
-            <th>اسم المدخل</th>
-            <th>اسم المعدة</th>
-            <th> الوردية </th>
-            <th> عدد ساعات العمل </th>
-            <th> المشروع </th>
-            <th>  تسمية العميل </th>
-            <th> العمليات</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-            include "config.php"; 
-            $username = $_SESSION['username'];
-            if($_SESSION['role'] == "admin"){ // if manager show all data
-            $sql = "SELECT * FROM `operations`";
-            }else{ // if user show just thier data  
-            $sql = "SELECT * FROM `operations` where entry_name = '$username' ";
-            }
-            
-
-
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-              while($row = $result->fetch_assoc()) {
-                echo "<tr>
-                  <td>".$row["id"]."</td>
-                  <td>".$row["entry_name"]."</td>
-                  <td>".$row["equipment_name"]."</td>
-                  <td>".$row["shift"]."</td>
-                  <td>".$row["today_hours"]."</td>
-                  <td>".$row["project_name"]."</td>
-                  <td>".$row["client_name"]."</td>
-                  <td><a href='details.php?id=".$row["id"]."' style='color:#FFD700; font-weight:bold;'>عرض</a> | 
-                   <a href='dashbourd.php?id=".$row["id"]."' 
-                   onclick=\"return confirm('هل أنت متأكد من الحذف؟');\" 
-                   style='color:red; font-weight:bold;'>
-                   🗑️ حذف
-                </a></td>
-                </tr>";
-              }
-            }
-          ?>
-        </tbody>
-      </table>
-      <br>
-      <a href="export.php" class="btn-export" style="background:#FFD700; padding:10px 20px; border-radius:8px; text-decoration:none; color:#000; font-weight:bold;">
-        ⬇️ تحميل إكسل كامل
-      </a>
+    <!-- كروت الإحصائيات -->
+    <div class="cards">
+      <div class="card"><h3>⏱️ إجمالي الساعات</h3><p><?php echo $total_hours; ?></p></div>
+      <div class="card"><h3>⚠️ ساعات التعطل</h3><p><?php echo $down_hours; ?></p></div>
+      <div class="card"><h3>✅ الساعات المنفذة</h3><p><?php echo $executed_hours; ?></p></div>
+      <div class="card"><h3>🛠 عدد المعدات</h3><p><?php echo $excavators + $dumpers; ?></p></div>
     </div>
+
+    <!-- كاردين المعدات -->
+    <div class="two-cards">
+      <a href="display_excavator.php"><div class="card">
+        <h3>🚜 الحفارات</h3>
+        <!-- <p><?php echo $excavators; ?> معدة</p> -->
+      </div></a>
+      <a href="display_tipper.php"><div class="card">
+        <h3>🚚 القلابات</h3>
+        <!-- <p><?php echo $dumpers; ?> معدة</p> -->
+      </div></a>
+    </div>
+
   </div>
 
-  <!-- مكتبات جافاسكربت -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
   <script>
-   $(document).ready(function () {
-  $('#dataTable').DataTable({
-    responsive: true,
-    "language": {
-      "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-    },
-    "order": [[0, "desc"]] // ترتيب العمود الأول (id) تنازلياً
-  });
-});
-
     function toggleSidebar(){
       document.getElementById("sidebar").classList.toggle("hide");
       document.getElementById("main").classList.toggle("full");
