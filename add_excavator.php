@@ -209,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
 
   <!-- المحتوى الرئيسي -->
-  <div class="main" id="main">
+  <div class="main full" id="main">
     <span class="menu-btn" onclick="toggleSidebar()">☰</span>
 
     <div class="container">

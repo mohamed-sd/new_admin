@@ -57,7 +57,7 @@ if ($result && $result->num_rows > 0) {
 </head>
 <body>
   <?php include 'sidebar.php'; ?>
-  <div class="main" id="main">
+  <div id="main" class="main full">
 
     <!-- الشريط العلوي -->
     <div class="topbar">
@@ -91,10 +91,12 @@ if ($result && $result->num_rows > 0) {
   </div>
 
   <script>
+    
     function toggleSidebar(){
       document.getElementById("sidebar").classList.toggle("hide");
       document.getElementById("main").classList.toggle("full");
     }
+
   </script>
 </body>
 </html>

@@ -38,7 +38,7 @@ $result = $conn->query($sql);
 </head>
 <body>
   <?php include 'sidebar.php'; ?>
-  <div class="main" id="main">
+  <div class="main full" id="main">
     <h2>🚛 ملخص تقارير القلابات</h2>
 
     <div style="overflow-x:auto;">

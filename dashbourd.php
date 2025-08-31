@@ -60,7 +60,7 @@ $total_equipment = $row['total'];
   <!-- Include the sidebar -->
   <?php include 'sidebar.php'; ?>
 
-  <div class="main" id="main">
+  <div class="main full" id="main">
     <!-- الشريط العلوي -->
     <div class="topbar">
      <span class="menu-btn" onclick="toggleSidebar()">☰</span>

@@ -1,6 +1,8 @@
-<div class="sidebar" id="sidebar">
+<!-- <div class="sidebar" id="sidebar"> -->
+  <div id="sidebar" class="sidebar hide">
   <!-- شعار مصغر + نص -->
    <br/>
+   <span class="menu-btn" onclick="toggleSidebar()">☰</span>
   <aside class="sidebar-logo" aria-label="Equipation logo">
     <div class="logo-mark">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"

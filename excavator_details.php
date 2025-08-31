@@ -51,7 +51,7 @@ if (isset($_GET['id'])) {
 
 <?php include 'sidebar.php'; ?>
 
-  <div class="main" id="main">
+  <div class="main full" id="main">
 
   <h2>📝 تقرير تفصيلي لساعات عمل الحفار</h2>
   <a href="#" onclick="window.print()" class="print-btn">🖨️ طباعة</a>

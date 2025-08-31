@@ -214,7 +214,7 @@ function old($key, $default = '')
 
 
   <!-- المحتوى الرئيسي -->
-  <div class="main" id="main">
+  <div class="main full" id="main">
     <span class="menu-btn" onclick="toggleSidebar()">☰</span>
 
     <div class="container">

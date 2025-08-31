@@ -80,7 +80,7 @@ if (!$data) {
 
 
 <!-- المحتوى الرئيسي -->
-<div class="main" id="main">
+<div class="main full" id="main">
 
   <div class="topbar">
   <span class="menu-btn" onclick="toggleSidebar()">☰</span>

@@ -285,7 +285,7 @@ include 'config.php';
   <!-- Include the sidebar -->
   <?php include 'sidebar.php'; ?>
 
-  <div class="main" id="main">
+  <div class="main full" id="main">
     <div class="wrap">
 
       <div class="brand">

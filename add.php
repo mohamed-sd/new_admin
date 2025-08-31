@@ -47,7 +47,7 @@ include 'config.php';
 
 
     <!-- المحتوى الرئيسي -->
-  <div class="main" id="main">
+  <div class="main full" id="main">
 
 
   <div class="topbar">

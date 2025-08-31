@@ -140,7 +140,7 @@ if (isset($_POST['update'])) {
   <!-- Include the sidebar -->
   <?php include 'sidebar.php'; ?>
 
-<div class="main" id="main">
+<div class="main full" id="main">
 <nav class="navbar navbar-dark mb-4">
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1"> <span class="menu-btn" onclick="toggleSidebar()">☰</span> 🚛  ادارة الماستر </span>

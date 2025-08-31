@@ -70,7 +70,7 @@ if (!isset($_SESSION['user_id'])) {
   <?php include 'sidebar.php'; ?>
 
   <!-- المحتوى الرئيسي -->
-  <div class="main" id="main">
+  <div class="main full" id="main">
     <!-- الشريط العلوي -->
     <div class="topbar">
       <span class="menu-btn" onclick="toggleSidebar()">☰</span>
