@@ -1,9 +1,10 @@
 <div class="sidebar" id="sidebar">
   <!-- شعار مصغر + نص -->
+   <br/>
   <aside class="sidebar-logo" aria-label="Equipation logo">
     <div class="logo-mark">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-           stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"/>
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 
         2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 
@@ -79,7 +80,7 @@
   .logo-mark {
     width:40px; height:40px;
     border-radius:8px;
-    background:linear-gradient(135deg,#0ea5a1,#06b6b4);
+    background:gold;
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 3px 8px rgba(0,0,0,.3);
   }
