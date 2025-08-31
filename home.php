@@ -12,9 +12,9 @@ $username = $_SESSION['username'];
 
 // فلترة البيانات (Admin يشوف الكل، غيره يشوف شغله فقط)
 if($_SESSION['role'] == "admin"){ 
-  $sql = "SELECT * FROM operations WHERE DATE(created_at) = CURDATE()";
+  $sql = "SELECT * FROM operations";
 }else{ 
-  $sql = "SELECT * FROM operations WHERE entry_name = '$username' AND DATE(created_at) = CURDATE()";
+  $sql = "SELECT * FROM operations WHERE entry_name = '$username' ";
 }
 
 $result = $conn->query($sql);
